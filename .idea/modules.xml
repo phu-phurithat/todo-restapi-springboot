@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/todoapi.iml" filepath="$PROJECT_DIR$/.idea/todoapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/todo-restapi-springboot.iml" filepath="$PROJECT_DIR$/.idea/todo-restapi-springboot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/todoapi/todoapi.iml" filepath="$PROJECT_DIR$/todoapi/todoapi.iml" />
     </modules>
   </component>
 </project>
