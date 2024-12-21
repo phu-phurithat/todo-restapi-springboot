@@ -1,0 +1,19 @@
+package com.phu.todoapi.services;
+
+import com.phu.todoapi.repos.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserServiceImpl {
+
+    @Autowired
+    UserRepo userRepo;
+
+    public User saveUser(User user) {
+        user.setId(null);
+        return userRepo.save(user);
+
+    }
+}
