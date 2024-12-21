@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Accessors(chain = true)
@@ -37,13 +38,13 @@ public class Users implements UserDetails {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private Date createdAt;
+    private LocalDateTime  createdAt;
 
     @UpdateTimestamp
     @Column(nullable = false)
-    private Date updatedAt;
+    private LocalDateTime  updatedAt;
 
-    private Date deletedAt;
+    private LocalDateTime deletedAt;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

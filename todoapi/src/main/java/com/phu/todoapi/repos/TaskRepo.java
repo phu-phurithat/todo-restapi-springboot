@@ -1,5 +1,8 @@
 package com.phu.todoapi.repos;
 
-public interface TaskRepo{
+import com.phu.todoapi.entity.Tasks;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TaskRepo extends JpaRepository<Tasks, Long> {
 
 }

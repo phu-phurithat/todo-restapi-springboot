@@ -2,11 +2,13 @@ package com.phu.todoapi.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Accessors(chain = true)
 public class Tasks {
 
     @Id
@@ -20,10 +22,10 @@ public class Tasks {
     private String content;
 
     @Column(nullable = false, length = 50)
-    private String Category;
+    private String category;
 
     @Column(nullable = false)
-    private Timestamp dueDate;
+    private LocalDateTime dueDate;
 
     private int priority;
 
@@ -41,3 +43,6 @@ public class Tasks {
         COMPLETED
     }
 }
+
+//create commit message for all change
+
