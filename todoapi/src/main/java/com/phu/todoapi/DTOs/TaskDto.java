@@ -1,10 +1,13 @@
 package com.phu.todoapi.DTOs;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
-public class AddTaskDto {
+@Accessors(chain = true)
+public class TaskDto {
 
+    private Long id;
     private String title;
     private String content;
     private String category;

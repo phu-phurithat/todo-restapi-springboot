@@ -1,52 +1,63 @@
 package com.phu.todoapi.services;
 
-import com.phu.todoapi.DTOs.AddTaskDto;
+import com.phu.todoapi.DTOs.TaskDto;
 import com.phu.todoapi.entity.Tasks;
 import com.phu.todoapi.entity.Users;
 import com.phu.todoapi.repos.TaskRepo;
 import com.phu.todoapi.repos.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.phu.todoapi.entity.Tasks.TaskStatus;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TaskService {
 
-    @Autowired
-    private TaskRepo taskRepo;
+    private final TaskRepo taskRepo;
+    private final UserRepo userRepo;
 
-    @Autowired
-    UserRepo userRepo;
+    public TaskService(TaskRepo taskRepo, UserRepo userRepo) {
+        this.taskRepo = taskRepo;
+        this.userRepo = userRepo;
+    }
 
-    public Tasks addTask(AddTaskDto input, String username) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        Users user = userRepo.findByUsername(username).orElseThrow();
-        LocalDateTime dueDate = LocalDateTime.parse(input.getDueDate(), formatter);
-        TaskStatus status = switch (input.getStatus()) {
-            case "PENDING" -> TaskStatus.PENDING;
-            case "IN_PROGRESS" -> TaskStatus.IN_PROGRESS;
-            case "COMPLETED" -> TaskStatus.COMPLETED;
-            default -> throw new IllegalArgumentException("Invalid status");
-        };
-        Tasks.TaskPriority priority = switch (input.getPriority()) {
-            case "LOW" -> Tasks.TaskPriority.LOW;
-            case "MEDIUM" -> Tasks.TaskPriority.MEDIUM;
-            case "HIGH" -> Tasks.TaskPriority.HIGH;
-            default -> throw new IllegalArgumentException("Invalid priority");
-        };
-        Tasks task = new Tasks()
-                .setTitle(input.getTitle())
-                .setContent(input.getContent())
-                .setCategory(input.getCategory())
-                .setPriority(priority)
-                .setDueDate(dueDate)
-                .setStatus(status)
-                .setUser(user);
+    public TaskDto addTask(TaskDto input, String username) {
+        Users user = getUserByUsername(username);
+        Tasks task = TaskMapper.toEntity(input, user);
+        return TaskMapper.toDto(taskRepo.save(task));
+    }
 
-        return taskRepo.save(task);
+    public TaskDto updateTask(TaskDto input, String username) {
+        Tasks existedTask = taskRepo.findById(input.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+        Users user = getUserByUsername(username);
+        Tasks updatedTask = TaskMapper.toEntity(input, user);
+        updatedTask.setId(existedTask.getId());
+        return TaskMapper.toDto(taskRepo.save(updatedTask));
+    }
+
+    private Users getUserByUsername(String username) {
+        return userRepo.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    public void deleteTask(Long taskId, String username) {
+        Tasks task = taskRepo.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+
+        if (!task.getUser().getUsername().equals(username)) {
+            throw new SecurityException("You are not authorized to delete this task");
+        }
+
+        taskRepo.delete(task);
+    }
+
+    public List<TaskDto> getAllTasks(String username) {
+        Users user = getUserByUsername(username);
+        List<Tasks> tasks = taskRepo.findAllByUserId(user.getId());
+        List<TaskDto> taskDtos = new ArrayList<>();
+        for (Tasks task : tasks) {
+            taskDtos.add(TaskMapper.toDto(task));
+        }
+        return taskDtos;
     }
 }
