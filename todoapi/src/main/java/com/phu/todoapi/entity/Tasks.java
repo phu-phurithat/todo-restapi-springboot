@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Tasks {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 50)
@@ -27,7 +27,8 @@ public class Tasks {
     @Column(nullable = false)
     private LocalDateTime dueDate;
 
-    private int priority;
+    @Column(nullable = false)
+    private TaskPriority priority;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -42,7 +43,10 @@ public class Tasks {
         IN_PROGRESS,
         COMPLETED
     }
+
+    public enum TaskPriority {
+        LOW,
+        MEDIUM,
+        HIGH
+    }
 }
-
-//create commit message for all change
-

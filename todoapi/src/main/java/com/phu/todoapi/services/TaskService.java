@@ -26,12 +26,23 @@ public class TaskService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Users user = userRepo.findByUsername(username).orElseThrow();
         LocalDateTime dueDate = LocalDateTime.parse(input.getDueDate(), formatter);
-        TaskStatus status = TaskStatus.PENDING;
+        TaskStatus status = switch (input.getStatus()) {
+            case "PENDING" -> TaskStatus.PENDING;
+            case "IN_PROGRESS" -> TaskStatus.IN_PROGRESS;
+            case "COMPLETED" -> TaskStatus.COMPLETED;
+            default -> throw new IllegalArgumentException("Invalid status");
+        };
+        Tasks.TaskPriority priority = switch (input.getPriority()) {
+            case "LOW" -> Tasks.TaskPriority.LOW;
+            case "MEDIUM" -> Tasks.TaskPriority.MEDIUM;
+            case "HIGH" -> Tasks.TaskPriority.HIGH;
+            default -> throw new IllegalArgumentException("Invalid priority");
+        };
         Tasks task = new Tasks()
                 .setTitle(input.getTitle())
                 .setContent(input.getContent())
                 .setCategory(input.getCategory())
-                .setPriority(input.getPriority())
+                .setPriority(priority)
                 .setDueDate(dueDate)
                 .setStatus(status)
                 .setUser(user);

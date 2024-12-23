@@ -8,7 +8,7 @@ public class AddTaskDto {
     private String title;
     private String content;
     private String category;
-    private int priority;
+    private String priority;
     private String dueDate;
     private String status;
 
