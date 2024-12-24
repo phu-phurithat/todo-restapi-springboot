@@ -3,6 +3,7 @@ package com.phu.todoapi.services;
 import com.phu.todoapi.DTOs.TaskDto;
 import com.phu.todoapi.entity.Tasks;
 import com.phu.todoapi.entity.Users;
+import com.phu.todoapi.exception.ResourceNotFoundException;
 import com.phu.todoapi.repos.TaskRepo;
 import com.phu.todoapi.repos.UserRepo;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class TaskService {
 
     public TaskDto updateTask(TaskDto input, String username) {
         Tasks existedTask = taskRepo.findById(input.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
         Users user = getUserByUsername(username);
         Tasks updatedTask = TaskMapper.toEntity(input, user);
         updatedTask.setId(existedTask.getId());
@@ -37,12 +38,12 @@ public class TaskService {
     }
 
     private Users getUserByUsername(String username) {
-        return userRepo.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return userRepo.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     public void deleteTask(Long taskId, String username) {
         Tasks task = taskRepo.findById(taskId)
-                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
 
         if (!task.getUser().getUsername().equals(username)) {
             throw new SecurityException("You are not authorized to delete this task");

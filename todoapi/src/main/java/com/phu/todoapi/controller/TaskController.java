@@ -20,7 +20,7 @@ public class TaskController {
     public ResponseEntity<TaskDto> addTask(@RequestBody TaskDto taskDto, Authentication authentication) {
         String username = authentication.getName();
         try {
-            return ResponseEntity.ok(taskService.addTask(taskDto,username));
+            return ResponseEntity.ok(taskService.addTask(taskDto, username));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
@@ -30,7 +30,7 @@ public class TaskController {
     public ResponseEntity<TaskDto> updateTask(@RequestBody TaskDto taskDto, Authentication authentication) {
         String username = authentication.getName();
         try {
-            return ResponseEntity.ok(taskService.updateTask(taskDto,username));
+            return ResponseEntity.ok(taskService.updateTask(taskDto, username));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
@@ -38,13 +38,9 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id, Authentication authentication) {
-        try {
-            String username = authentication.getName();
-            taskService.deleteTask(id,username);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        String username = authentication.getName();
+        taskService.deleteTask(id, username);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
