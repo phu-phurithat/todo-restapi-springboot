@@ -21,9 +21,6 @@ Practice in best practices Todo App API using Spring Boot.
 **Database:** Mysql
 
 **Cache:** Redis
-## Documentation
-
-[Documentation](https://linktodocumentation)
 
 
 ## Environment Variables
