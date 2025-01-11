@@ -1,7 +1,5 @@
 package com.phu.todoapi.configs;
 
-import com.phu.todoapi.repos.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,12 +10,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.phu.todoapi.repos.UserRepo;
+
 @Configuration
 public class ApplicationConfig {
-    @Autowired
-    private UserRepo userRepo;
 
-    private int bCryptStrength = 12;
+    private final UserRepo userRepo;
+
+    private final int bCryptStrength = 12;
+
+    public ApplicationConfig(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @Bean
     UserDetailsService userDetailsService() {

@@ -1,7 +1,7 @@
 package com.phu.todoapi.services;
 
-import com.phu.todoapi.DTOs.LoginUserDto;
-import com.phu.todoapi.DTOs.RegisterUserDto;
+import com.phu.todoapi.dtos.LoginUserDto;
+import com.phu.todoapi.dtos.RegisterUserDto;
 import com.phu.todoapi.entity.Users;
 import com.phu.todoapi.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;

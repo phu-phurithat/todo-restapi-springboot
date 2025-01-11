@@ -21,8 +21,6 @@ import java.util.Set;
 @Entity
 public class Users implements UserDetails {
 
-    public Users() {}
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

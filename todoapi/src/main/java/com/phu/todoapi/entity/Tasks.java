@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class Tasks {
 
+    public Tasks() {}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,6 +29,7 @@ public class Tasks {
     @Column(nullable = false)
     private LocalDateTime dueDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TaskPriority priority;
 

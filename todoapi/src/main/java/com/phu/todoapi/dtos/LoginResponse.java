@@ -1,4 +1,4 @@
-package com.phu.todoapi.DTOs;
+package com.phu.todoapi.dtos;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

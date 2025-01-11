@@ -1,6 +1,6 @@
 package com.phu.todoapi.services;
 
-import com.phu.todoapi.DTOs.TaskDto;
+import com.phu.todoapi.dtos.TaskDto;
 import com.phu.todoapi.entity.Tasks;
 import com.phu.todoapi.entity.Users;
 import com.phu.todoapi.exception.ResourceNotFoundException;
